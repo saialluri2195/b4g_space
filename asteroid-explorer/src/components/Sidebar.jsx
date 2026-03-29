@@ -1,6 +1,6 @@
 import React from 'react';
 import { ShieldAlert, Maximize, AlertTriangle } from 'lucide-react';
-
+//final
 export default function Sidebar({ data, selectedAsteroid, setSelectedAsteroid }) {
   if (!data || data.length === 0) return null;
 

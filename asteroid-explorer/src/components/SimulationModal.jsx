@@ -4,7 +4,7 @@ import { MapContainer, TileLayer, Circle, useMap } from 'react-leaflet';
 import { X, Flame, Target, Map, Skull } from 'lucide-react';
 import { calculateImpactStats } from '../utils/physics';
 import { playImpactSequence } from '../utils/audio';
-
+//final
 const TARGET_CITIES = [
   { name: 'Paris, France', lat: 48.8566, lng: 2.3522, density: 20700 },
   { name: 'New York City, USA', lat: 40.7128, lng: -74.0060, density: 10700 },
