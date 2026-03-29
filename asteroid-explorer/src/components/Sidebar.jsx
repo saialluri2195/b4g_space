@@ -8,7 +8,10 @@ export default function Sidebar({ data, selectedAsteroid, setSelectedAsteroid })
   const largest = [...data].sort((a, b) => b.diameter - a.diameter)[0];
   const closest = [...data].sort((a, b) => a.missDistance - b.missDistance)[0];
 
-  const topScary = [...hazardous].sort((a, b) => b.diameter - a.diameter).slice(0, 5);
+  const topScary = [...data].sort((a, b) => {
+    if (a.isHazardous === b.isHazardous) return b.diameter - a.diameter;
+    return a.isHazardous ? -1 : 1;
+  }).slice(0, 5);
 
   return (
     <div className="absolute right-4 top-4 w-80 max-h-[90vh] overflow-y-auto bg-space-800/80 backdrop-blur-xl border border-white/10 rounded-2xl p-6 flex flex-col gap-6 shadow-2xl z-10">
@@ -17,7 +20,7 @@ export default function Sidebar({ data, selectedAsteroid, setSelectedAsteroid })
         <h1 className="text-2xl font-bold bg-gradient-to-r from-space-accent to-white bg-clip-text text-transparent mb-1">
           Asteroid Risk Explorer
         </h1>
-        <p className="text-sm text-gray-400">Live NASA NEO Data Visualizer</p>
+        <p className="text-sm text-gray-400 border-b border-white/10 pb-4">Live NASA NEO Data Visualizer</p>
       </div>
 
       <div className="grid grid-cols-2 gap-3">
@@ -42,18 +45,18 @@ export default function Sidebar({ data, selectedAsteroid, setSelectedAsteroid })
             <button
               key={ast.id}
               onClick={() => setSelectedAsteroid(ast)}
-              className="flex items-center justify-between p-3 rounded-lg bg-white/5 hover:bg-white/10 border border-transparent hover:border-space-danger/50 transition-all text-left"
+              className="flex items-center justify-between p-3 rounded-lg bg-white/5 hover:bg-white/10 border border-transparent hover:border-space-danger/50 transition-all text-left group"
             >
               <div className="flex items-center gap-3">
-                <span className="text-space-danger font-mono text-sm">0{i + 1}</span>
+                <span className={`${ast.isHazardous ? 'text-space-danger' : 'text-gray-500'} font-mono text-sm`}>0{i + 1}</span>
                 <div>
-                  <p className="font-semibold text-sm">{ast.name}</p>
+                  <p className="font-semibold text-sm group-hover:text-white text-gray-200 transition-colors">{ast.name}</p>
                   <p className="text-xs text-gray-400">Ø {Math.round(ast.diameter)}m</p>
                 </div>
               </div>
-              <AlertTriangle size={16} className="text-space-danger opacity-50" />
+              {ast.isHazardous && <AlertTriangle size={16} className="text-space-danger animate-pulse" />}
             </button>
-          )) : <p className="text-sm text-gray-500">No hazardous asteroids this week.</p>}
+          )) : <p className="text-sm text-gray-500">No data found.</p>}
         </div>
       </div>
     </div>

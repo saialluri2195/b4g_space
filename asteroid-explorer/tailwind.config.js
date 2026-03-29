@@ -15,6 +15,10 @@ export default {
           danger: '#ef4444'  // Red for impact
         }
       },
+      fontFamily: {
+        sans: ['"Chakra Petch"', 'system-ui', 'sans-serif'],
+        mono: ['"Share Tech Mono"', 'monospace'],
+      },
       animation: {
         'pulse-slow': 'pulse 3s cubic-bezier(0.4, 0, 0.6, 1) infinite',
       }

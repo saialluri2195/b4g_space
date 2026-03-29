@@ -1,6 +1,6 @@
 import React, { useRef, useMemo, Suspense } from 'react';
 import { Canvas, useFrame } from '@react-three/fiber';
-import { OrbitControls, Stars, Trail, Html, useTexture } from '@react-three/drei';
+import { OrbitControls, Stars, Html, useTexture } from '@react-three/drei';
 import { EffectComposer, Bloom } from '@react-three/postprocessing';
 import * as THREE from 'three';
 
@@ -37,7 +37,7 @@ const Asteroid = ({ data, currentTime, exaggerate, onSelect }) => {
   // Scaling factors for visual representation
   const distanceScale = 0.000005; // Compress millions of km
   const baseSize = data.diameter * 0.002;
-  const size = exaggerate ? baseSize * 50 : baseSize;
+  const size = exaggerate ? baseSize * 5 : baseSize;
 
   // Compute position (Simulating a linear flyby trajectory)
   // Close approach is at Z = missDistance, X = 0
@@ -76,22 +76,19 @@ const Asteroid = ({ data, currentTime, exaggerate, onSelect }) => {
       onPointerOver={() => document.body.style.cursor = 'pointer'}
       onPointerOut={() => document.body.style.cursor = 'auto'}
     >
-      <Trail width={exaggerate ? 0.8 : 0.2} length={25} color={data.isHazardous ? "#ff4400" : "#ffaa00"} attenuation={(t) => t * t}>
-        {/* Core textured rock acting as Magma */}
-        <mesh>
-          <dodecahedronGeometry args={[size, 1]} />
-          <meshStandardMaterial 
-            map={asteroidMap}
-            emissiveMap={asteroidMap}
-            emissive={data.isHazardous ? "#ff2200" : "#ff8800"}
-            emissiveIntensity={data.isHazardous ? 3.5 : 2.0}
-            color={data.isHazardous ? "#ffaaaa" : "#ffffff"} 
-            roughness={0.9}
-            transparent
-            opacity={opacity}
-          />
-        </mesh>
-      </Trail>
+      <mesh>
+        <dodecahedronGeometry args={[size, 1]} />
+        <meshStandardMaterial 
+          map={asteroidMap}
+          emissiveMap={asteroidMap}
+          emissive={data.isHazardous ? "#ff2200" : "#ff8800"}
+          emissiveIntensity={data.isHazardous ? 4.5 : 2.5}
+          color={data.isHazardous ? "#ffaaaa" : "#ffffff"} 
+          roughness={0.9}
+          transparent
+          opacity={opacity}
+        />
+      </mesh>
 
       {/* Label on hover or close approach */}
       {distToEarth < 15 && (

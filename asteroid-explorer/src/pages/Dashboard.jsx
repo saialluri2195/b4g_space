@@ -4,7 +4,9 @@ import AsteroidScene from '../components/AsteroidScene';
 import Timeline from '../components/Timeline';
 import Sidebar from '../components/Sidebar';
 import SimulationModal from '../components/SimulationModal';
-import { Loader2 } from 'lucide-react';
+import DirectionsModal from '../components/DirectionsModal';
+import { Loader2, Info } from 'lucide-react';
+import { AnimatePresence } from 'framer-motion';
 
 export default function Dashboard() {
   const { data, loading, error } = useNasaData();
@@ -13,6 +15,7 @@ export default function Dashboard() {
   const [speed, setSpeed] = useState(1);
   const[exaggerate, setExaggerate] = useState(true); // Default to true for visual impressiveness
   const [selectedAsteroid, setSelectedAsteroid] = useState(null);
+  const [showDirections, setShowDirections] = useState(true);
 
   // Time boundaries based on data
   const minTime = data.length > 0 ? data[0].date - 86400000 : Date.now();
@@ -94,12 +97,22 @@ export default function Dashboard() {
         />
       )}
 
-      {/* Hackathon branding / instructions */}
-      <div className="absolute top-4 left-4 z-10 pointer-events-none opacity-50 text-xs font-mono">
-        <p>SCROLL to zoom</p>
-        <p>DRAG to rotate Earth</p>
-        <p>CLICK asteroid to simulate impact</p>
+      {/* Directions Toggle */}
+      <div className="absolute top-4 left-4 z-10">
+        <button 
+          onClick={() => setShowDirections(true)}
+          className="bg-black/40 hover:bg-space-accent/20 border border-white/10 hover:border-space-accent/50 text-white p-3 rounded-xl transition-all shadow-lg flex items-center gap-2 group backdrop-blur-md"
+        >
+          <Info size={20} className="text-space-accent group-hover:scale-110 transition-transform" />
+          <span className="font-bold text-sm tracking-wider uppercase hidden sm:block">Instructions</span>
+        </button>
       </div>
+
+      <AnimatePresence>
+        {showDirections && (
+          <DirectionsModal onClose={() => setShowDirections(false)} />
+        )}
+      </AnimatePresence>
 
     </div>
   );
